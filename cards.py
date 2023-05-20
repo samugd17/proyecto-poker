@@ -14,15 +14,16 @@ class Card:
         SPADES: "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮",
     }
     A_VALUE = 1
+    K_VALUE = 13
+    MAX_CARDS = 52
 
     def __init__(self, value: int, suit: str):
-        self.value = value
-        self.suit = suit
         if suit not in self.GLYPHS:
             raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
-        if not (1 <= value <= 13):
+        if not 1 <= value <= 13:
             raise InvalidCardError(message=f"{repr(value)} is not a supported value")
-        self.value = Card.GLYPHS[self.suit][self.value - 1]
+        self.suit = suit
+        self.value = value
 
     @property
     def cmp_value(self) -> int:
@@ -41,13 +42,41 @@ class Card:
 
 
 class Deck:
+    LAST_CARD = 51
+    FIRST_CARD = 0
+
     def __init__(self):
         self.cards = []
-        for suit, value in Card.GLYPHS.items():
-            new_card = Card(value, suit)
-        self.cards.append(new_card)
+        for suit, values in Card.GLYPHS.items():
+            for value in values:
+                int_value = values.index(value) + 1
+                new_card = Card(int_value, suit)
+                self.cards.append(new_card)
 
+    def get_random_card(self):
+        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        return self.cards.pop(random_value)
+    
+    def view_random_card(self):
+        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        return self.cards[random_value]
+    
+    def get_top_card(self):
+        return self.cards.pop(self.FIRST_CARD)
 
+    def get_bottom_card(self):
+        return self.cards.pop(self.LAST_CARD)
+    
+    def view_top_card(self):
+        return self.cards[self.FIRST_CARD]
+    
+    def view_bottom_card(self):
+        return self.cards[self.LAST_CARD]
+    
+    def shuffle(self):
+        helpers.shuffle(self.cards)
+        return self.cards
+    
 class Hand:
     def __init__(self):
         ...
@@ -63,5 +92,9 @@ class InvalidCardError(Exception):
         super().__init__(self.message)
 
 
+# card = Card(1,Card.HEARTS)
+# print(card)
 deck1 = Deck()
-print(deck1)
+print(deck1.cards)
+print(deck1.view_bottom_card())
+print(deck1.shuffle())
