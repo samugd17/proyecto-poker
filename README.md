@@ -2,7 +2,7 @@
 
 ### TAREA EVALUABLE
 
-![Vending machine](./images/poker.svg)
+<img src="https://github.com/sdelquin/pro/blob/main/ut4/te2/images/poker.svg">
 
 ## Objetivo
 
