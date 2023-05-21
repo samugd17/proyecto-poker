@@ -38,7 +38,7 @@ class Card:
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
-        return self.GLYPHS[self.suit][self.value - 1]
+        return f'{self.GLYPHS[self.suit][self.value - 1]} '
 
 
 class Deck:
@@ -96,5 +96,5 @@ class InvalidCardError(Exception):
 # print(card)
 deck1 = Deck()
 print(deck1.cards)
-print(deck1.view_bottom_card())
+print(deck1.get_random_card())
 print(deck1.shuffle())
