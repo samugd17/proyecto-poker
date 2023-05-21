@@ -40,7 +40,6 @@ class Card:
         """Devuelve el glifo de la carta"""
         return f'{self.GLYPHS[self.suit][self.value - 1]} '
 
-
 class Deck:
     LAST_CARD = 51
     FIRST_CARD = 0
@@ -52,11 +51,15 @@ class Deck:
                 int_value = values.index(value) + 1
                 new_card = Card(int_value, suit)
                 self.cards.append(new_card)
+                
+    def __getitem__(self, index: int) -> str:
+        return self.cards[index]
 
     def get_random_card(self):
         random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
         return self.cards.pop(random_value)
     
+    @property
     def view_random_card(self):
         random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
         return self.cards[random_value]
@@ -67,9 +70,11 @@ class Deck:
     def get_bottom_card(self):
         return self.cards.pop(self.LAST_CARD)
     
+    @property
     def view_top_card(self):
         return self.cards[self.FIRST_CARD]
     
+    @property
     def view_bottom_card(self):
         return self.cards[self.LAST_CARD]
     
@@ -94,7 +99,7 @@ class InvalidCardError(Exception):
 
 # card = Card(1,Card.HEARTS)
 # print(card)
-deck1 = Deck()
-print(deck1.cards)
-print(deck1.get_random_card())
-print(deck1.shuffle())
+# deck1 = Deck()
+# print(deck1.cards)
+# print(deck1.get_random_card())
+# print(deck1.shuffle())

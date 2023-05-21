@@ -5,8 +5,12 @@ class Player:
     def __init__(self):
         name = input("Introduce tu nombre: ").title()
         self.name = name
-        self.cards = cards.Hand()
-    ...
+        self.player_cards = Dealer.give_player_cards()
+        self.table_cards = Dealer.take_common_cards()
+    
+    def choose_best_combination(self):
+        helpers.combinations(cards.Hand(), 5)
+        
 class Dealer:
     def __init__(self, *players: Player):
         self.players = players
