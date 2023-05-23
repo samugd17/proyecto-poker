@@ -2,11 +2,8 @@ from __future__ import annotations
 import helpers, cards
 
 class Player:
-    def __init__(self):
-        name = input("Introduce tu nombre: ").title()
-        self.name = name
-        self.player_cards = Dealer.give_player_cards()
-        self.table_cards = Dealer.take_common_cards()
+    def __init__(self, name: str):
+        self.name = name.title()
     
     def choose_best_combination(self):
         helpers.combinations(cards.Hand(), 5)
@@ -30,11 +27,10 @@ class Dealer:
             player_cards += new_card
         return player_cards
 
-player = Player()
-player1 = Player()
+player = Player("samu")
+player1 = Player("sergio")
 print(player.name)
 print(player1.name)
-
 dealer1 = Dealer(player,player1)
 print(dealer1.give_player_cards())
 print(dealer1.take_common_cards())

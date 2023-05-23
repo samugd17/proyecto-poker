@@ -15,7 +15,7 @@ class Card:
     }
     A_VALUE = 1
     K_VALUE = 13
-    MAX_CARDS = 52
+    MAX_CARDS = 51
 
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
@@ -99,7 +99,7 @@ class InvalidCardError(Exception):
 
 # card = Card(1,Card.HEARTS)
 # print(card)
-# deck1 = Deck()
+deck1 = Deck()
 # print(deck1.cards)
-# print(deck1.get_random_card())
+print(deck1.get_random_card())
 # print(deck1.shuffle())
