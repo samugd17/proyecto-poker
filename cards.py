@@ -9,23 +9,21 @@ class Card:
             "◆":"🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
             "❤":"🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
             "♠":"🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮"}
-    A_VALUE = 1
 
     def __init__(self, value: int, suit: str):
         self.value = value
         self.suit = suit
         if suit not in self.GLYPHS:
             raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
-        if isinstance(value, int):
-            if not (1 <= value <= 13):
-                raise InvalidCardError(message=f"{repr(value)} is not a supported value")
+        if not (1 <= value <= 13):
+            raise InvalidCardError(message=f"{repr(value)} is not a supported value")
         self.value = value
 
     @property
     def cmp_value(self) -> int:
         """Devuelve el valor (numérico) de la carta para comparar con otras.
         Tener en cuenta el AS."""
-        if self.value == Card.A_VALUE:
+        if self.value == 1:
             self.value = 14
         return self.value
     
