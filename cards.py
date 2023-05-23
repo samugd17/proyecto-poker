@@ -55,10 +55,9 @@ class Deck:
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
-    def get_random_card(self):
-        if Card.MAX_CARDS:   
-            random_value = helpers.randint(Card.MAX_CARDS)
-            Card.MAX_CARDS -= 1
+    def get_random_card(self): 
+        random_value = helpers.randint(Card.MAX_CARDS)
+        Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
     @property
