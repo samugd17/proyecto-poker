@@ -15,7 +15,7 @@ class Card:
     }
     A_VALUE = 1
     K_VALUE = 13
-    MAX_CARDS = 52
+    MAX_CARDS = 51 #Por índice Python
 
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
@@ -56,7 +56,9 @@ class Deck:
         return self.cards[index]
 
     def get_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        if Card.MAX_CARDS:   
+            random_value = helpers.randint(Card.MAX_CARDS)
+            Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
     @property
