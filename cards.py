@@ -7,12 +7,6 @@ class Card:
     DIAMONDS = "◆"
     HEARTS = "❤"
     SPADES = "♠"
-<<<<<<< HEAD
-    GLYPHS = {"♣":"🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
-            "◆":"🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
-            "❤":"🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
-            "♠":"🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮"}
-=======
     GLYPHS = {
         CLUBS: "🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
         DIAMONDS: "🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
@@ -22,19 +16,13 @@ class Card:
     A_VALUE = 1
     K_VALUE = 13
     MAX_CARDS = 52
->>>>>>> samuel
 
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
             raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
-<<<<<<< HEAD
-        if not (1 <= value <= 13):
-            raise InvalidCardError(message=f"{repr(value)} is not a supported value")
-=======
         if not 1 <= value <= 13:
             raise InvalidCardError(message=f"{repr(value)} is not a supported value")
         self.suit = suit
->>>>>>> samuel
         self.value = value
 
     @property
