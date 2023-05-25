@@ -34,7 +34,9 @@ class Card:
         return self.value
 
     def __lt__(self, other: Card):
-        return self.cmp_value < other.value
+        # -------------------------------------
+        return self.cmp_value < other.cmp_value
+        # -------------------------------------
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
@@ -49,19 +51,20 @@ class Deck:
         for suit, values in Card.GLYPHS.items():
             for value in values:
                 int_value = values.index(value) + 1
-                new_card = Card(int_value, suit)
-                self.cards.append(new_card)
+                self.cards.append(Card(int_value, suit))
                 
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
     def get_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        # -------------------------------------
+        random_value = helpers.randint(1, Card.MAX_CARDS)
+        # -------------------------------------
         return self.cards.pop(random_value)
     
     @property
     def view_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        random_value = helpers.randint(1, Card.MAX_CARDS)
         return self.cards[random_value]
     
     def get_top_card(self):
@@ -78,9 +81,10 @@ class Deck:
     def view_bottom_card(self):
         return self.cards[self.LAST_CARD]
     
-    def shuffle(self):
+    # -------------------------------------
+    def shuffle(self) -> None:
         helpers.shuffle(self.cards)
-        return self.cards
+    # -------------------------------------
     
 class Hand:
     def __init__(self):
