@@ -21,11 +21,11 @@ class Dealer:
         return table_cards
 
     def give_player_cards(self):
-        player_cards = ""
+        Player.cards = ""
         for _ in range(2):
             new_card = str(self.cards.get_random_card())
-            player_cards += new_card
-        return player_cards
+            Player.cards += new_card
+        return Player.cards
 
 
 player = Player("samu")

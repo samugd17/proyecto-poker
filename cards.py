@@ -17,6 +17,17 @@ class Card:
     K_VALUE = 13
     MAX_CARDS = 52
 
+    hands = ['Royal Flush', 
+             'Straight Flush', 
+             'Poker', 
+             'Full House', 
+             'Flush', 
+             'Straight', 
+             'Three of a kind', 
+             'Two Pair', 
+             'Pair', 
+             'High Card']
+
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
             raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
@@ -88,7 +99,7 @@ class Deck:
     
 class Hand:
     def __init__(self):
-        ...
+        pass
 
 
 class InvalidCardError(Exception):
