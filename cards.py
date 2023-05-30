@@ -68,9 +68,8 @@ class Deck:
         return self.cards[index]
 
     def get_random_card(self):
-        # -------------------------------------
         random_value = helpers.randint(1, Card.MAX_CARDS)
-        # -------------------------------------
+        Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
     @property
