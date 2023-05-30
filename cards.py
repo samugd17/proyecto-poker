@@ -15,7 +15,7 @@ class Card:
     }
     A_VALUE = 1
     K_VALUE = 13
-    MAX_CARDS = 52
+    MAX_CARDS = 51 #Por índice Python
 
     hands = ['Royal Flush', 
              'Straight Flush', 
@@ -67,10 +67,16 @@ class Deck:
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
+<<<<<<< HEAD
     def get_random_card(self):
         # -------------------------------------
         random_value = helpers.randint(1, Card.MAX_CARDS)
         # -------------------------------------
+=======
+    def get_random_card(self): 
+        random_value = helpers.randint(Card.MAX_CARDS)
+        Card.MAX_CARDS -= 1
+>>>>>>> samuel
         return self.cards.pop(random_value)
     
     @property
