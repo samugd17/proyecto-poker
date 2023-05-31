@@ -37,8 +37,10 @@ class Card:
         return self.GLYPHS[self.suit][self.value - 1]
 
 class Deck:
+
     def __init__(self):
         ...
+
     
 class Hand:       
     def __init__(self):
@@ -52,3 +54,5 @@ class InvalidCardError(Exception):
         else:
             self.message = f"{default_message}: {message}"
         super().__init__(self.message)
+
+
