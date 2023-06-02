@@ -82,8 +82,12 @@ class Deck:
         helpers.shuffle(self.cards)
         return self.cards
     
+    def __eq__(self):
+    
 class Hand:
     def __init__(self):
+        ...
+    def __contains__(self):
         ...
 
 
