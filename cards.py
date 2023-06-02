@@ -39,6 +39,9 @@ class Card:
     def __repr__(self):
         """Devuelve el glifo de la carta"""
         return f'{self.GLYPHS[self.suit][self.value - 1]} '
+    
+    def __eq__(self, other):
+        return self.suit == other.suit and self.value == other.value
 
 class Deck:
     LAST_CARD = 51
@@ -83,15 +86,19 @@ class Deck:
         helpers.shuffle(self.cards)
         return self.cards
     
-    def __eq__(self):
+
     
 class Hand:
     def __init__(self):
         ...
+        
     def __contains__(self):
         ...
 
-
+    def choose_best_combination(self):
+        # helpers.combinations(cards.Hand(), 5)
+        pass
+    
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
         default_message = "🃏 Invalid card"
