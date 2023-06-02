@@ -1,5 +1,5 @@
 from __future__ import annotations
-import helpers
+import helpers, cards
 
 
 class Card:
@@ -59,7 +59,7 @@ class Deck:
         return self.cards[index]
 
     def get_random_card(self): 
-        random_value = helpers.randint(Card.MAX_CARDS)
+        random_value = helpers.randint(1, Card.MAX_CARDS)
         Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
@@ -89,15 +89,17 @@ class Deck:
 
     
 class Hand:
-    def __init__(self):
-        ...
+    def __init__(self, common_cards: str, player_cards: str):
+        self.common_cards = common_cards
+        self.player_cards = player_cards
+        self.cards_in_game = list(common_cards) + list(player_cards)
         
-    def __contains__(self):
-        ...
+    def __contains__(self, card):
+        pass
 
     def choose_best_combination(self):
-        # helpers.combinations(cards.Hand(), 5)
-        pass
+        return list(helpers.combinations(self.cards_in_game, n=5))
+        
     
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
@@ -115,3 +117,5 @@ class InvalidCardError(Exception):
 # print(deck1.cards)
 # print(deck1.get_random_card())
 # print(deck1.shuffle())
+
+

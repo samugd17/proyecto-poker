@@ -1,5 +1,6 @@
 from __future__ import annotations
-import helpers, cards
+import helpers
+from cards import Deck
 
 
 class Player:
@@ -8,12 +9,16 @@ class Player:
         self.cards = Dealer().give_player_cards()
 
     def choose_best_combination(self):
-        helpers.combinations(cards.Hand(), 5)
-        
+        ...
+
+    def __repr__(self) -> str:
+        return f"{self.name}: {self.cards}"
+
+
 class Dealer:
     def __init__(self, *players: Player):
         self.players = players
-        self.cards = cards.Deck()
+        self.cards = Deck()
         self.table_cards = self.take_common_cards()
 
     def take_common_cards(self):
@@ -30,12 +35,14 @@ class Dealer:
             player_cards += new_card
         return player_cards
 
+    def __repr__(self) -> str:
+        return f"Board: {self.table_cards}"
+
+
 player = Player("samu")
 player1 = Player("lolo")
-print(player.name)
-print(player1.name)
-print(player.cards)
-print(player1.cards)
+print(player)
+print(player1)
 
-dealer1 = Dealer(player, player1)
-print(dealer1.take_common_cards())
+dealer = Dealer(player, player1)
+print(dealer)
