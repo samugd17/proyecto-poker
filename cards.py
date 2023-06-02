@@ -15,7 +15,7 @@ class Card:
     }
     A_VALUE = 1
     K_VALUE = 13
-    MAX_CARDS = 51
+    MAX_CARDS = 51 #Por índice Python
 
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
@@ -55,8 +55,9 @@ class Deck:
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
-    def get_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+    def get_random_card(self): 
+        random_value = helpers.randint(Card.MAX_CARDS)
+        Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
     @property
@@ -103,7 +104,7 @@ class InvalidCardError(Exception):
 
 # card = Card(1,Card.HEARTS)
 # print(card)
-deck1 = Deck()
+# deck1 = Deck()
 # print(deck1.cards)
-print(deck1.get_random_card())
+# print(deck1.get_random_card())
 # print(deck1.shuffle())

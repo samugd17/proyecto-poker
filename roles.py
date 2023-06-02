@@ -30,6 +30,10 @@ class Dealer:
             player_cards += new_card
         return player_cards
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 72d4aabe2d5179777d485957a4c66a06e465649d
 player = Player("samu")
 player1 = Player("lolo")
 print(player.name)
