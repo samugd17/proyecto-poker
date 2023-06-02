@@ -5,7 +5,7 @@ import helpers, cards
 class Player:
     def __init__(self, name: str):
         self.name = name.title()
-        self.cards = Dealer.give_player_cards
+        self.cards = Dealer().give_player_cards()
 
     def choose_best_combination(self):
         helpers.combinations(cards.Hand(), 5)
@@ -34,7 +34,8 @@ player = Player("samu")
 player1 = Player("lolo")
 print(player.name)
 print(player1.name)
+print(player.cards)
+print(player1.cards)
 
 dealer1 = Dealer(player, player1)
-print(dealer1.give_player_cards())
 print(dealer1.take_common_cards())
