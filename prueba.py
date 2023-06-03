@@ -1,24 +1,28 @@
 import random
+from itertools import chain 
 
-cards = {"♣":"🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
-"◆":"🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
-"❤":"🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
-"♠":"🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮"}
+num = {'♣': ['🃑', '🃒', '🃓', '🃔', '🃕', '🃖', '🃗', '🃘', '🃙', '🃚', '🃛', '🃝', '🃞'],
+'◆': ['🃁', '🃂', '🃃' ,'🃄' ,'🃅' ,'🃆' ,'🃇' ,'🃈' ,'🃉' ,'🃊' ,'🃋' ,'🃍' ,'🃎'],
+'❤': ['🂱', '🂲', '🂳', '🂴', '🂵', '🂶', '🂷', '🂸', '🂹', '🂺', '🂻', '🂽', '🂾'],
+'♠': ['🂡', '🂢', '🂣', '🂤', '🂥', '🂦', '🂧', '🂨', '🂩', '🂪', '🂫', '🂭', '🂮']}
 
-class Deck:
-
-    def __init__(self, cards: dict|str):
-        self.cards = cards
-
-    def list_palo(self):
-        palo = cards.values()
-        lista_palo = list(palo)
-        troceado = list(lista_palo[0])
-        return troceado
-        
-    def randoms(self):
-        palo_lista = self.list_palo
-        return random.shuffle(palo_lista)
+def cards():
+    mix = []
+    for _ in num.values():
+        random.shuffle(_)
+        mix.append(_)
+    encapsulator = list(chain(*mix))
+    return encapsulator.pop(0)
     
-deck = Deck(cards)
-deck.randoms()
+print(cards())
+
+# caso de prueba para generar las cartas de la mesa.
+
+#def cards():
+#    bolsa = []
+#    for i in num.values():
+#        a = random.choice(i)
+#        bolsa.append(a)
+#        continue
+#    return bolsa
+#cards()

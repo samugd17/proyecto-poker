@@ -9,6 +9,3 @@ class Player:
 class Dealer:
     def __init__(self, players: str):
         ...
-class Hand:
-    def __init__(self):
-        ...

@@ -1,14 +1,21 @@
 from __future__ import annotations
+import random
+from itertools import chain
 
 class Card:
     CLUBS = "♣"
     DIAMONDS = "◆"
     HEARTS = "❤"
     SPADES = "♠"
-    GLYPHS = {"♣":"🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
-"◆":"🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
-"❤":"🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
-"♠":"🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮"}
+    GLYPHS = {"♣": ['🃑','🃒','🃓','🃔','🃕','🃖','🃗','🃘','🃙','🃚','🃛','🃝','🃞'],
+"◆": ['🃁','🃂','🃃','🃄','🃅','🃆','🃇','🃈','🃉','🃊','🃋','🃍','🃎'],
+"❤": ['🂱','🂲','🂳','🂴','🂵','🂶','🂷','🂸','🂹','🂺','🂻','🂽','🂾'],
+"♠": ['🂡','🂢','🂣','🂤','🂥','🂦','🂧','🂨','🂩','🂪','🂫','🂭','🂮']}
+    
+#    GLYPHS = {"♣":"🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
+#"◆":"🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
+#"❤":"🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
+#"♠":"🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮"}
     A_VALUE = 1
 
     def __init__(self, value: int, suit: str):
@@ -19,7 +26,6 @@ class Card:
         if isinstance(value, int):
             if not (1 <= value <= 13):
                 raise InvalidCardError(message=f"{repr(value)} is not a supported value")
-        self.value = value
 
     @property
     def cmp_value(self) -> int:
@@ -38,9 +44,35 @@ class Card:
 
 class Deck:
 
-    def __init__(self):
-        ...
+    def __init__(self, cards: int = 52):
+        self.cards = cards
+        self.mix = [] 
+    
+    def shuffles(self):
+        for value in Card.GLYPHS.values():
+            deck_cards = random.shuffle(value)
+            continue
+        return deck_cards
 
+    def card_random(self):
+        '''Entra todas las carta en una misma lista ya aleatorio'''
+        for _ in Card.GLYPHS.values():
+            random.shuffle(_)
+            self.mix.append(_)
+        return list(chain(*self.mix))
+    
+    def see_random_up(self):
+        return self.card_random()[0]
+    
+    def see_random_down(self):
+        return self.card_random()[-1]
+
+    def give_card_up(self):
+        return self.card_random().pop(0)
+
+
+    def give_card_down(self):
+        return self.card_random().pop(-1)
     
 class Hand:       
     def __init__(self):
@@ -56,3 +88,5 @@ class InvalidCardError(Exception):
         super().__init__(self.message)
 
 
+a = Deck()
+print(a.see_random_down())
