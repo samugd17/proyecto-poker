@@ -89,4 +89,4 @@ class InvalidCardError(Exception):
 
 
 a = Deck()
-print(a.see_random_down())
+print(a.card_random())
