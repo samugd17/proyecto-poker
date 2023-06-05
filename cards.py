@@ -88,8 +88,8 @@ class Deck:
         return self.cards 
 
 class Hand:
-    def __init__(self):
-        ...
+    def __init__(self, common_cards: str, player_cards: str):
+        self.game_cards = list(common_cards) + list(player_cards)
         
     def __contains__(self):
         ...
