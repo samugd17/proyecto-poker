@@ -102,8 +102,6 @@ class Deck:
 
 class Hand:
     def __init__(self, common_cards: str, player_cards: str):
-        self.common_cards = common_cards
-        self.player_cards = player_cards
         self.cards_in_game = list(common_cards) + list(player_cards)
         
     def __contains__(self, card):

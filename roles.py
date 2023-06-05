@@ -6,7 +6,7 @@ from cards import Deck
 class Player:
     def __init__(self, name: str):
         self.name = name.title()
-        self.cards = Dealer().give_player_cards()
+        self.cards = ""
 
     def choose_best_combination(self):
         ...
