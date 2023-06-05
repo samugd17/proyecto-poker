@@ -17,17 +17,6 @@ class Card:
     K_VALUE = 13
     MAX_CARDS = 51 #Por índice Python
 
-    hands = ['Royal Flush', 
-             'Straight Flush', 
-             'Poker', 
-             'Full House', 
-             'Flush', 
-             'Straight', 
-             'Three of a kind', 
-             'Two Pair', 
-             'Pair', 
-             'High Card']
-
     def __init__(self, value: int, suit: str):
         if suit not in self.GLYPHS:
             raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
@@ -45,9 +34,7 @@ class Card:
         return self.value
 
     def __lt__(self, other: Card):
-        # -------------------------------------
         return self.cmp_value < other.cmp_value
-        # -------------------------------------
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
@@ -98,7 +85,18 @@ class Deck:
     
 class Hand:
     def __init__(self):
-        pass
+        hands = {'Royal Flush': 10,
+             'Straight Flush': 9,
+             'Poker': 8,
+             'Full House': 7,
+             'Flush': 6,
+             'Straight': 5,
+             'Three of a kind': 4,
+             'Two Pair': 3,
+             'Pair': 2,
+             'High Card': 1}
+
+    
 
 
 class InvalidCardError(Exception):

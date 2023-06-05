@@ -9,8 +9,13 @@ class Player:
     def choose_best_combination(self, other: Dealer):
         total_cards = self.cards + other.table_cards
         combinations = list(helpers.combinations(total_cards, n = 5))
+        for combination in combinations:
+            for card in combination:
+                pass
+
+                
+
         
-        pass
         
 class Dealer:
     def __init__(self, *players: Player):
@@ -37,11 +42,11 @@ class Dealer:
 player = Player("samu")
 player1 = Player("lolo")
 print(player.name)
-print(player1.name)
+
 
 dealer1 = Dealer(player, player1)
 print(dealer1.give_player_cards(player))
 print(player.cards)
 print(dealer1.take_common_cards())
-
+print(player1.choose_best_combination(dealer1))
 player.choose_best_combination(dealer1)
