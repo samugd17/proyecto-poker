@@ -84,10 +84,8 @@ class Deck:
     
     def shuffle(self):
         helpers.shuffle(self.cards)
-        return self.cards
-    
+        return self.cards 
 
-    
 class Hand:
     def __init__(self):
         ...
