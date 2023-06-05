@@ -7,23 +7,24 @@ class Card:
     DIAMONDS = "◆"
     HEARTS = "❤"
     SPADES = "♠"
-    GLYPHS = {
-        CLUBS: "🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
-        DIAMONDS: "🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
-        HEARTS: "🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
-        SPADES: "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮",
-    }
+    DECK = dict.fromkeys([CLUBS, DIAMONDS, HEARTS, SPADES],["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"])
+    SYMBOLS = ("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K")
     A_VALUE = 1
     K_VALUE = 13
     MAX_CARDS = 51 #Por índice Python
 
-    def __init__(self, value: int, suit: str):
-        if suit not in self.GLYPHS:
-            raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
-        if not 1 <= value <= 13:
-            raise InvalidCardError(message=f"{repr(value)} is not a supported value")
+    def __init__(self, value: int|str, suit: str):
         self.suit = suit
         self.value = value
+        if suit not in self.DECK:
+            raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
+        if isinstance (self, int):
+            if not 1 <= value <= 13:
+                raise InvalidCardError(message=f"{repr(value)} is not a supported value")
+        elif isinstance(self, str):
+            if value not in self.DECK:
+                raise InvalidCardError(message=f"{repr(value)} is not a supported symbol")
+            self.value = self.SYMBOLS.index(value) + 1
 
     @property
     def cmp_value(self) -> int:
@@ -38,7 +39,7 @@ class Card:
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
-        return f'{self.GLYPHS[self.suit][self.value - 1]} '
+        return f'{self.DECK[self.suit][self.value - 1]}{self.suit} '
     
     def __eq__(self, other):
         return self.suit == other.suit and self.value == other.value
@@ -49,7 +50,7 @@ class Deck:
 
     def __init__(self):
         self.cards = []
-        for suit, values in Card.GLYPHS.items():
+        for suit, values in Card.DECK.items():
             for value in values:
                 int_value = values.index(value) + 1
                 new_card = Card(int_value, suit)
@@ -107,9 +108,9 @@ class InvalidCardError(Exception):
         super().__init__(self.message)
 
 
-card = Card(1,Card.HEARTS)
-print(card)
-deck1 = Deck()
-print(deck1.cards)
-print(deck1.get_random_card())
-print(deck1.shuffle())
+# card = Card(1,Card.HEARTS)
+# print(card)
+# deck1 = Deck()
+# print(deck1.cards)
+# print(deck1.get_random_card())
+# print(deck1.shuffle())
