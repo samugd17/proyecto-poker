@@ -1,5 +1,5 @@
 from __future__ import annotations
-import helpers
+import helpers, cards
 
 
 class Card:
@@ -35,13 +35,27 @@ class Card:
 
     def __lt__(self, other: Card):
         return self.cmp_value < other.value
+    
+    def __gt__(self, other: Card):
+        return self.cmp_value > other.value
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
         return f'{self.GLYPHS[self.suit][self.value - 1]} '
     
     def __eq__(self, other):
-        return self.suit == other.suit and self.value == other.value
+        return self.suit == other.suit and self.cmp_value == other.value
+    
+    def same_value(self, other: Card):
+        return self.cmp_value == other.value
+    
+    def same_suit(self, other: Card):
+        return self.suit == other.suit
+    
+    def is_consecutive(self, other: Card):
+        if self.cmp_value > other.value:
+            return self.cmp_value - other.value == 1
+        return other.value - self.cmp_value == 1
 
 class Deck:
     LAST_CARD = 51
@@ -59,7 +73,7 @@ class Deck:
         return self.cards[index]
 
     def get_random_card(self): 
-        random_value = helpers.randint(Card.MAX_CARDS)
+        random_value = helpers.randint(1, Card.MAX_CARDS)
         Card.MAX_CARDS -= 1
         return self.cards.pop(random_value)
     
@@ -87,15 +101,17 @@ class Deck:
         return self.cards 
 
 class Hand:
-    def __init__(self):
-        ...
+    def __init__(self, common_cards: str, player_cards: str):
+        self.common_cards = common_cards
+        self.player_cards = player_cards
+        self.cards_in_game = list(common_cards) + list(player_cards)
         
-    def __contains__(self):
-        ...
+    def __contains__(self, card):
+        pass
 
     def choose_best_combination(self):
-        # helpers.combinations(cards.Hand(), 5)
-        pass
+        return list(helpers.combinations(self.cards_in_game, n=5))
+        
     
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
@@ -113,3 +129,5 @@ class InvalidCardError(Exception):
 # print(deck1.cards)
 # print(deck1.get_random_card())
 # print(deck1.shuffle())
+
+
