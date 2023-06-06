@@ -46,20 +46,18 @@ class Deck:
 
     def __init__(self, cards: int = 52):
         self.cards = cards
-        self.mix = [] 
+        self.mix = []
     
     def shuffles(self):
         for value in Card.GLYPHS.values():
-            deck_cards = random.shuffle(value)
+            self.mix.append(value)
+            random.shuffle(self.mix)
             continue
-        return deck_cards
+        return list(chain(*self.mix))
 
     def card_random(self):
-        '''Entra todas las carta en una misma lista ya aleatorio'''
-        for _ in Card.GLYPHS.values():
-            random.shuffle(_)
-            self.mix.append(_)
-        return list(chain(*self.mix))
+        '''Una vez tenindo todas las cartas en una misma lista aplicaremos random'''
+        return random.shuffle(self.shuffles())
     
     def see_random_up(self):
         return self.card_random()[0]
@@ -69,7 +67,6 @@ class Deck:
 
     def give_card_up(self):
         return self.card_random().pop(0)
-
 
     def give_card_down(self):
         return self.card_random().pop(-1)
@@ -87,6 +84,5 @@ class InvalidCardError(Exception):
             self.message = f"{default_message}: {message}"
         super().__init__(self.message)
 
-
 a = Deck()
-print(a.card_random())
+print(a.shuffles())
