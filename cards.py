@@ -36,13 +36,27 @@ class Card:
 
     def __lt__(self, other: Card):
         return self.cmp_value < other.value
+    
+    def __gt__(self, other: Card):
+        return self.cmp_value > other.value
 
     def __repr__(self):
         """Devuelve el glifo de la carta"""
-        return f'{self.DECK[self.suit][self.value - 1]}{self.suit} '
+        return f'{self.GLYPHS[self.suit][self.value - 1]}{self.suit} '
     
     def __eq__(self, other):
-        return self.suit == other.suit and self.value == other.value
+        return self.suit == other.suit and self.cmp_value == other.value
+    
+    def same_value(self, other: Card):
+        return self.cmp_value == other.value
+    
+    def same_suit(self, other: Card):
+        return self.suit == other.suit
+    
+    def is_consecutive(self, other: Card):
+        if self.cmp_value > other.value:
+            return self.cmp_value - other.value == 1
+        return other.value - self.cmp_value == 1
 
 class Deck:
     LAST_CARD = 51
