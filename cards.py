@@ -11,25 +11,28 @@ class Card:
         [CLUBS, DIAMONDS, HEARTS, SPADES],
         ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
     )
-    A_VALUE = "A"
+    INIT_A_VALUE = 1
+    HIGHEST_A_VALUE = 14
     MAX_CARDS = 51  # Por índice Python
 
     def __init__(self, card_value: str):
-        self.value = card_value[0]
-        self.suit = card_value[1]
+        if len(card_value) > 2:
+            self.value = card_value[:2]
+            self.suit = card_value[2]
+        else:
+            self.value = card_value[0]
+            self.suit = card_value[1]
 
         if self.suit not in self.DECK:
             raise InvalidCardError(message=f"{repr(self.suit)} is not a supported suit")
         if self.value not in self.DECK[self.suit]:
-            raise InvalidCardError(
-                message=f"{repr(self.value)} is not a supported value"
-            )
+            raise InvalidCardError(message=f"{repr(self.value)} is not a supported value")
 
     @property
     def cmp_value(self) -> int:
         """Devuelve el valor (numérico) de la carta para comparar con otras."""
-        if self.value == self.A_VALUE:
-            return 14
+        if self.value == "A":
+            return self.HIGHEST_A_VALUE
         return self.DECK[self.suit].index(self.value) + 1
 
     def __lt__(self, other: Card):
@@ -39,7 +42,7 @@ class Card:
         return self.cmp_value > other.cmp_value
 
     def __repr__(self):
-        return f"{self.value}{self.suit} "
+        return f"{self.value}{self.suit}"
 
     def __eq__(self, other):
         return self.suit == other.suit and self.value == other.value
@@ -77,7 +80,7 @@ class Deck:
 
     @property
     def view_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        random_value = helpers.randint(Card.MAX_CARDS)
         return self.cards[random_value]
 
     def get_top_card(self):
@@ -100,16 +103,26 @@ class Deck:
 
 
 class Hand:
-    def __init__(self, common_cards: str, player_cards: str):
-        self.game_cards = list(common_cards) + list(player_cards)
+    HIGH_CARD = 1
+    ONE_PAIR = 2
+    TWO_PAIR = 3
+    THREE_OF_A_KIND = 4
+    STRAIGHT = 5
+    FLUSH = 6
+    FULL_HOUSE = 7
+    FOUR_OF_A_KIND = 8
+    STRAIGHT_FLUSH = 9
 
-    def __contains__(self):
-        ...
+    def __init__(self, common_cards: list[Card], player_cards: list[Card]):
+        self.game_cards = common_cards + player_cards
+        self.cat = ""
+        self.cat_rank = ""
 
-    def choose_best_combination(self):
-        # helpers.combinations(cards.Hand(), 5)
+    def __contains__(a, b):
         pass
 
+    def choose_best_combination(self):
+        helpers.combinations(self.game_cards, n=5)
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
@@ -121,11 +134,10 @@ class InvalidCardError(Exception):
         super().__init__(self.message)
 
 
-# card1 = Card("J♠")
-# card2 = Card("K♠")
-# card3 = Card("A♣")
-# print(card3)
-# print(card2.is_consecutive(card3))
+# card1 = Card("Q♣")
+# card2 = Card("A♣")
+# card3 = Card("10♣")
+# print(card1)
 # deck1 = Deck()
 # print(deck1.cards)
 # print(deck1.get_random_card())

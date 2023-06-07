@@ -2,7 +2,7 @@
 
 ### TAREA EVALUABLE
 
-![Vending machine](./images/poker.svg)
+<img src="https://github.com/sdelquin/pro/blob/main/ut4/te2/images/poker.svg">
 
 ## Objetivo
 
@@ -103,7 +103,6 @@ Esta función debe retornar el jugador ganador y la mano ganadora. En caso de em
 
 - Se debe poder construir un objecto `Player` pasando el nombre del jugador. **Ejemplos**: `Player('Player 1'), Player('Player 2')`
 - Se debe poder construir un objecto `Card` desde una cadena de texto. **Ejemplos**: `Card('Q♠'), Card('7♣'), Card('A♠')`
-- El objeto `Hand` debe contener un atributo `cat` que represente la categoría de la mano, con una de las siguientes constantes:
 - El objeto `Hand` debe contener un atributo `cat` que identifique la categoría de la mano así como un atributo `cat_rank` que almacene el "ranking" de su categoría. En la mayoría de casos es la carta más alta, pero no siempre. **Ejemplos**:
 
 | `hand.cat`             | `hand.cat_rank` | Explicación                                   |
@@ -112,7 +111,7 @@ Esta función debe retornar el jugador ganador y la mano ganadora. En caso de em
 | `Hand.ONE_PAIR`        | `'5'`           | Carta más álta                                |
 | `Hand.TWO_PAIR`        | `('10', '7')`   | Tupla con cartas más altas (de mayor a menor) |
 | `Hand.THREE_OF_A_KIND` | `'K'`           | Carta más álta                                |
-| `Hand.STRAIGTH`        | `'9'`           | Carta más álta                                |
+| `Hand.STRAIGHT`        | `'9'`           | Carta más álta                                |
 | `Hand.FLUSH`           | `'Q'`           | Carta más álta                                |
 | `Hand.FULL_HOUSE`      | `('3', 'J')`    | Tupla con carta del trío y carta de la pareja |
 | `Hand.FOUR_OF_A_KIND`  | `'Q'`           | Carta más álta                                |

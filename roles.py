@@ -1,12 +1,12 @@
 from __future__ import annotations
 import helpers
-from cards import Deck
+from cards import Deck, Card
 
 
 class Player:
     def __init__(self, name: str):
         self.name = name.title()
-        self.cards = ""
+        self.cards = Dealer.give_player_cards(Dealer())
 
     def choose_best_combination(self):
         ...
@@ -22,17 +22,17 @@ class Dealer:
         self.table_cards = self.take_common_cards()
 
     def take_common_cards(self):
-        table_cards = ""
+        table_cards = []
         for _ in range(5):
-            new_card = str(self.cards.get_random_card())
-            table_cards += new_card
+            new_card = self.cards.get_random_card()
+            table_cards.append(new_card)
         return table_cards
 
     def give_player_cards(self):
-        player_cards = ""
+        player_cards = []
         for _ in range(2):
-            new_card = str(self.cards.get_random_card())
-            player_cards += new_card
+            new_card = self.cards.get_random_card()
+            player_cards.append(new_card)
         return player_cards
 
     def __repr__(self) -> str:
