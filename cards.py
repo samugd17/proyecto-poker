@@ -123,8 +123,8 @@ class InvalidCardError(Exception):
 
 # card1 = Card("J♠")
 # card2 = Card("K♠")
-card3 = Card("A♣")
-print(card3)
+# card3 = Card("A♣")
+# print(card3)
 # print(card2.is_consecutive(card3))
 # deck1 = Deck()
 # print(deck1.cards)
