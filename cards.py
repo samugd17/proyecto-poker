@@ -26,9 +26,7 @@ class Card:
         if self.suit not in self.DECK:
             raise InvalidCardError(message=f"{repr(self.suit)} is not a supported suit")
         if self.value not in self.DECK[self.suit]:
-            raise InvalidCardError(
-                message=f"{repr(self.value)} is not a supported value"
-            )
+            raise InvalidCardError(message=f"{repr(self.value)} is not a supported value")
 
     @property
     def cmp_value(self) -> int:
@@ -114,9 +112,11 @@ class Hand:
     FULL_HOUSE = 7
     FOUR_OF_A_KIND = 8
     STRAIGHT_FLUSH = 9
-    
+
     def __init__(self, common_cards: list[Card], player_cards: list[Card]):
         self.game_cards = common_cards + player_cards
+        self.cat = ""
+        self.cat_rank = ""
 
     def __contains__(self):
         ...
