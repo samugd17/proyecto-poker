@@ -39,7 +39,7 @@ class Card:
         return self.cmp_value > other.cmp_value
 
     def __repr__(self):
-        return f"{self.DECK[self.suit][self.cmp_value - 1]}{self.suit} "
+        return f"{self.value}{self.suit} "
 
     def __eq__(self, other):
         return self.suit == other.suit and self.value == other.value
