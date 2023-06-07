@@ -118,13 +118,11 @@ class Hand:
         self.cat = ""
         self.cat_rank = ""
 
-    def __contains__(self):
-        ...
-
-    def choose_best_combination(self):
-        # helpers.combinations(cards.Hand(), 5)
+    def __contains__(a, b):
         pass
 
+    def choose_best_combination(self):
+        helpers.combinations(self.game_cards, n=5)
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
