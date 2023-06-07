@@ -64,7 +64,7 @@ class Deck:
         self.cards = []
         for suit, values in Card.DECK.items():
             for value in values:
-                new_card = value + suit
+                new_card = Card(value + suit)
                 self.cards.append(new_card)
 
     def __getitem__(self, index: int) -> str:
@@ -123,8 +123,8 @@ class InvalidCardError(Exception):
 
 # card1 = Card("J♠")
 # card2 = Card("K♠")
-card3 = Card("A♣")
-print(card3)
+# card3 = Card("A♣")
+# print(card3)
 # print(card2.is_consecutive(card3))
 deck1 = Deck()
 print(deck1.cards)
