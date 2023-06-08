@@ -100,10 +100,10 @@ class Hand:
         pass
 
     def find_best_combination(self, value: str | int, suit: str):
-        flush = self.check_flush()
-        straight = self.check_straight()
-        same_kind = self.same_kind()
-
+        if self.check_straight() is not None:
+            if self.check_flush() is not None:
+                self.cat = 'STRAIGHT_FLUSH'
+                self.cat_rank = self.check_straight
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
