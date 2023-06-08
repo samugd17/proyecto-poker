@@ -63,18 +63,21 @@ class Hand:
 
     def check_flush(self):
         regex = r'♣{5}|◆{5}|❤{5}|♠{5}'
-        return re.match(regex, self.suits) is not None
-            
+        match = re.match(regex, self.suits)
+        if match is not None:
+            return match.group()[1]
+        return None
 
     def check_straight(self):
         straight = []
-        last_value = self.values[0]
-        for value in self.values[1:]:
-            if value == last_value + 1:
-                straight.append(value)
-                last_value = value
+        last_value = self.total_cards[0].value
+        for card in self.total_cards[1:]:
+            if card.value == last_value + 1:
+                straight.append(card)
+                last_value = card.value
         straight.insert(0, self.values[0])
-        return len(straight) >= 5
+        if len(straight) >= 5:
+            return straight[-1]
            
     def check_same_kind(self):
          for card in self.total_cards:
@@ -85,10 +88,12 @@ class Hand:
                 return card.value, 3
              if self.values.count(card.value) == 2:
                 return card.value, 2
+             return None
              
     def check_full_house(self, three_of_a_kind_card):
         for card in self.total_cards:
-            return self.values.count(card.value) == 2 and card != three_of_a_kind_card
+            if self.values.count(card.value) == 2 and card != three_of_a_kind_card:
+                return card.value
                 
                 
     def check_highest_value(self, combination: str):

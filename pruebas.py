@@ -3,12 +3,16 @@ import re
 regex = r'♣{5}|◆{5}|❤{5}|♠{5}'
 p1 = '♣◆❤♠♣◆❤♠'
 p2 = '◆◆◆◆◆'
-res = 'Lesgo'if re.match(regex, p2) is not None else 'No'
+res = 'Si'if re.match(regex, p2) is not None else 'No'
+
+print(re.match(regex, p2).group()[1])
 
 total_cards = [1, 2, 4, 6, 8, 9]
 
 rep_cards = list(str(Card) for Card in total_cards)
 print(rep_cards)
+
+
 
 values = total_cards = [1, 2, 1, 1, 1, 4, 4, 6, 8, 9]
 
