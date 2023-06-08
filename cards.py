@@ -56,20 +56,20 @@ class Hand:
     def __init__(self, table_cards: list[Card], own_cards: list[Card]):
         self.total_cards = table_cards + own_cards
         self.rep_cards = list(str(Card) for Card in self.total_cards)
-        self.values = list(Card.cmp_value for Card in self.total_cards)
+        self.values = sorted(list(Card.cmp_value for Card in self.total_cards))
         self.suits = list(Card.suit for Card in self.total_cards)
         self.cat = ...
         self.cat_rank = ...
 
     def check_flush(self):
         regex = r'♣{5}|◆{5}|❤{5}|♠{5}'
-        if re.match(regex, self.suits) is not None
+        return re.match(regex, self.suits) is not None
             
 
     def check_straight(self):
         straight = []
         last_value = self.values[0]
-        for value in sorted(self.values)[1:]:
+        for value in self.values[1:]:
             if value == last_value + 1:
                 straight.append(value)
                 last_value = value
@@ -77,7 +77,8 @@ class Hand:
         return len(straight) >= 5
            
     def check_same_kind(self):
-        pass
+        ammounts = {val:self.values.count(val) for val in self.values}
+        return max(ammounts.values()) 
 
     def check_highest_value(self, combination: str):
         pass
