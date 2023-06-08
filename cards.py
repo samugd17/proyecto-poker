@@ -63,13 +63,19 @@ class Hand:
 
     def check_flush(self):
         regex = r'♣{5}|◆{5}|❤{5}|♠{5}'
-        if re.match(regex, self.suits) is not None:
-            return 'FLUSH'
+        if re.match(regex, self.suits) is not None
+            
 
     def check_straight(self):
-        for card in self.total_cards:
-            if card.cmp_value
-
+        straight = []
+        last_value = self.values[0]
+        for value in sorted(self.values)[1:]:
+            if value == last_value + 1:
+                straight.append(value)
+                last_value = value
+        straight.insert(0, self.values[0])
+        return len(straight) >= 5
+           
     def check_same_kind(self):
         pass
 
