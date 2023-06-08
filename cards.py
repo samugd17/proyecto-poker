@@ -53,20 +53,22 @@ class Deck:
     
 # Lista de las representaciones de las cartas
 class Hand:       
-    def __init__(self, table_cards: list, own_cards: list):
+    def __init__(self, table_cards: list[Card], own_cards: list[Card]):
         self.total_cards = table_cards + own_cards
-        rep_cards = list(str(Card) for Card in self.total_cards)
+        self.rep_cards = list(str(Card) for Card in self.total_cards)
+        self.values = list(Card.cmp_value for Card in self.total_cards)
+        self.suits = list(Card.suit for Card in self.total_cards)
         self.cat = ...
         self.cat_rank = ...
 
     def check_flush(self):
         regex = r'♣{5}|◆{5}|❤{5}|♠{5}'
-        cards = ''.join(self.total_cards)
-        if re.match(regex, cards) is not None:
+        if re.match(regex, self.suits) is not None:
             return 'FLUSH'
 
     def check_straight(self):
-        
+        for card in self.total_cards:
+            if card.cmp_value
 
     def check_same_kind(self):
         pass
