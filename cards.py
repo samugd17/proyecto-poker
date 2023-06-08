@@ -77,9 +77,12 @@ class Hand:
         return len(straight) >= 5
            
     def check_same_kind(self):
-        ammounts = {val:self.values.count(val) for val in self.values}
-        return max(ammounts.values()) 
-
+        # for value in self.total_cards:
+        #     if self.values.count(value) == 4:
+        #         return 
+        # return max(ammounts.values()) 
+        pass
+    
     def check_highest_value(self, combination: str):
         pass
 
