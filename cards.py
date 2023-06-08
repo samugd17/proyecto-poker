@@ -78,6 +78,11 @@ class Hand:
         straight.insert(0, self.values[0])
         if len(straight) >= 5:
             return straight[-1]
+        
+    def check_full_house(self, three_of_a_kind_card):
+        for card in self.total_cards:
+            if self.values.count(card.value) == 2 and card != three_of_a_kind_card:
+                return card.value
            
     def check_same_kind(self):
          for card in self.total_cards:
@@ -90,20 +95,22 @@ class Hand:
                 return card.value, 2
              return None
              
-    def check_full_house(self, three_of_a_kind_card):
-        for card in self.total_cards:
-            if self.values.count(card.value) == 2 and card != three_of_a_kind_card:
-                return card.value
-                
-                
+           
     def check_highest_value(self, combination: str):
         pass
 
     def find_best_combination(self, value: str | int, suit: str):
+        if self.check_straight() is not None and self.check_flush() is not None:
+            self.cat = 'STRAIGHT_FLUSH'
+            self.cat_rank = self.check_straight()
         if self.check_straight() is not None:
-            if self.check_flush() is not None:
-                self.cat = 'STRAIGHT_FLUSH'
-                self.cat_rank = self.check_straight
+            self.cat = 'STRAIGHT'
+            self.cat_rank = self.check_straight()
+        if self.check_flush() is not None:
+            self.cat = 'FLUSH'
+            self.cat_rank = ...
+        
+
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
