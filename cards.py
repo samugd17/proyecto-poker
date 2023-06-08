@@ -77,12 +77,20 @@ class Hand:
         return len(straight) >= 5
            
     def check_same_kind(self):
-        # for value in self.total_cards:
-        #     if self.values.count(value) == 4:
-        #         return 
-        # return max(ammounts.values()) 
-        pass
-    
+         for card in self.total_cards:
+             if self.values.count(card.value) == 4:
+                return card.value, 4
+             if self.values.count(card.value) == 3:
+                self.check_full_house(card)
+                return card.value, 3
+             if self.values.count(card.value) == 2:
+                return card.value, 2
+             
+    def check_full_house(self, three_of_a_kind_card):
+        for card in self.total_cards:
+            return self.values.count(card.value) == 2 and card != three_of_a_kind_card
+                
+                
     def check_highest_value(self, combination: str):
         pass
 
