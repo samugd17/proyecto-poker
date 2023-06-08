@@ -27,18 +27,9 @@ class Card:
     def cmp_value(self) -> int:
         """Devuelve el valor (numérico) de la carta para comparar con otras.
         Tener en cuenta el AS."""
-        match self.value:
-            case Card.A_VALUE:
-                self.value = 14
-            case 'K':
-                self.value = 13
-            case 'Q':
-                self.value = 12
-            case 'J':
-                self.value = 11
-            case _:
-                self.value = int(self.value)
-        return self.value
+        if self.value == "A":
+            return 14
+        return self.DECK[self.suit].index(self.value) + 1
     
     def __lt__(self, other: Card):
         return self.cmp_value < other.value
