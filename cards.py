@@ -115,14 +115,60 @@ class Hand:
 
     def __init__(self, common_cards: list[Card], player_cards: list[Card]):
         self.game_cards = common_cards + player_cards
-        self.cat = ""
-        self.cat_rank = ""
+        self.cat = 0
+        self.cat_rank: str | tuple = None
 
     def __contains__(a, b):
         pass
 
-    def choose_best_combination(self):
-        helpers.combinations(self.game_cards, n=5)
+    def make_all_combinations(self):
+        return list(helpers.combinations(self.game_cards, n=5))
+    
+    def check_hand(self) -> None:
+        suits = [card.suit for card in self.game_cards]
+        card_values = [card.cmp_value for card in self.game_cards]
+        same_suit = len(set(suits)) == 1
+
+        # Establecemos todas las combinaciones posibles
+        straight = sorted(card_values) == list(range(min(card_values), max(card_values) + 1))
+        straight_flush = same_suit and straight
+        four_of_a_kind = any(card_values.count(value) == 4 for value in set(card_values))
+        full_house = any(card_values.count(value) == 3 for value in set(card_values)) and len(set(card_values)) == 2
+        flush = any(suits.count(suit) == 5 for suit in set(suits))
+        three_of_a_kind = any(card_values.count(value) == 3 for value in set(card_values))
+        two_pairs = len(set(card_values)) == 3 and any(card_values.count(value) == 2 for value in set(card_values))
+        one_pair = len(set(card_values)) == 4
+
+        # Determinamos la categoría y rango de la mano
+        if straight_flush:
+            self.cat = self.STRAIGHT_FLUSH
+            self.cat_rank = str(max(card_values))
+        elif four_of_a_kind:
+            self.cat = self.FOUR_OF_A_KIND
+            self.cat_rank = str(max(card_values))
+        elif full_house:
+            three_of_a_kind_value = max(set(card_values), key=card_values.count)
+            pair_value = min(set(card_values), key=card_values.count)
+            self.cat = self.FULL_HOUSE
+            self.cat_rank = tuple(str(three_of_a_kind_value), str(pair_value))
+        elif flush:
+            self.cat = self.FLUSH
+            self.cat_rank = str(max(card_values))
+        elif straight:
+            self.cat = self.STRAIGHT
+        elif three_of_a_kind:
+            self.cat = self.THREE_OF_A_KIND
+            self.cat_rank = str(max(card_values))
+        elif two_pairs:
+            pairs_values = [value for value in set(card_values) if card_values.count(value) == 2]
+            self.cat = self.TWO_PAIR
+            self.cat_rank = tuple(str(value) for value in sorted(pairs_values, reverse=True))
+        elif one_pair:
+            self.cat = self.ONE_PAIR
+            self.cat_rank = str(max(card_values))
+        else:
+            self.cat = self.HIGH_CARD
+            self.cat_rank = str(max(card_values))
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
@@ -142,3 +188,6 @@ class InvalidCardError(Exception):
 # print(deck1.cards)
 # print(deck1.get_random_card())
 # print(deck1.shuffle())
+
+
+
