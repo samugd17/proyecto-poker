@@ -14,7 +14,7 @@ class Player:
     
     def find_best_hand(self):
         player_hand = Hand(self.table_cards, self.cards)
-        print(player_hand.check_hand())
+        
 
 
 class Dealer:

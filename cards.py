@@ -114,8 +114,8 @@ class Hand:
         self.cat = 0
         self.cat_rank: str | tuple = None
 
-    def __contains__(a, b):
-        pass
+    def __contains__(self, b):
+        return self in b
 
     def make_all_combinations(self):
         return list(helpers.combinations(self.game_cards, n=5))
@@ -134,6 +134,9 @@ class Hand:
         three_of_a_kind = any(card_values.count(value) == 3 for value in set(card_values))
         two_pairs = len(set(card_values)) == 3 and any(card_values.count(value) == 2 for value in set(card_values))
         one_pair = len(set(card_values)) == 4
+        high_card = max(card_values)
+
+        self.possible_categories = [straight, straight_flush, four_of_a_kind, full_house, flush, three_of_a_kind, two_pairs, one_pair, high_card]
 
         # Determinamos la categoría y rango de la mano
         if straight_flush:

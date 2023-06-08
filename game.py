@@ -17,9 +17,8 @@ class Game:
         pass
 
 
-game = Game(4)
+game = Game(5)
 game.start_game()
 print(game.players[1].table_cards)
-print(game.players[0].table_cards)
-print(game.players)
+print(game.players[1].cards)
 print(game.players[1].find_best_hand())
