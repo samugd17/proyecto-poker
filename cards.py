@@ -16,12 +16,8 @@ class Card:
     MAX_CARDS = 51  # Por índice Python
 
     def __init__(self, card_value: str):
-        if len(card_value) > 2:
-            self.value = card_value[:2]
-            self.suit = card_value[2]
-        else:
-            self.value = card_value[0]
-            self.suit = card_value[1]
+        self.value = card_value[:-1]
+        self.suit = card_value[-1]
 
         if self.suit not in self.DECK:
             raise InvalidCardError(message=f"{repr(self.suit)} is not a supported suit")
