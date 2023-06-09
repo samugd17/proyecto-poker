@@ -14,14 +14,16 @@ class Game:
         self.dealer.give_player_cards()
         self.dealer.take_common_cards()
 
-    def get_winner(
-        players: list[Player], common_cards: list[Card], private_cards: list[list[Card]]
-    ) -> tuple[Player | None, Hand]:
-        pass
+    def get_winner(players: list[Player], common_cards: list[Card], private_cards: list[list[Card]]) -> tuple[Player | None, Hand]:
+        return players, common_cards, private_cards
 
 
-game = Game(5)
+game = Game()
 game.start_game()
+print(game.players)
 print(game.players[1].table_cards)
+print(game.players[0].cards)
 print(game.players[1].cards)
+print(game.players[0].find_best_hand())
 print(game.players[1].find_best_hand())
+print(game.dealer.resolv())

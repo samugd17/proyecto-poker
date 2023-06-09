@@ -111,10 +111,10 @@ class Hand:
     FOUR_OF_A_KIND = 8
     STRAIGHT_FLUSH = 9
 
-    def __init__(self, common_cards: list[Card] | tuple[Card], player_cards: list[Card] = []):
+    def __init__(self, common_cards: list[Card], player_cards: list[Card] = ()):
         self.game_cards = common_cards + player_cards
         self.cat = 0
-        self.cat_rank: str | tuple = None
+        self.cat_rank = None
 
     def __contains__(self, b):
         return self in b
@@ -128,10 +128,17 @@ class Hand:
         same_suit = len(set(suits)) == 1
 
         # Establecemos todas las combinaciones posibles
-        straight = sorted(card_values) == list(range(min(card_values), max(card_values) + 1))
+        straight = sorted(card_values) == list(
+            range(min(card_values), max(card_values) + 1)
+        )
         straight_flush = same_suit and straight
-        four_of_a_kind = any(card_values.count(value) == 4 for value in set(card_values))
-        full_house = (any(card_values.count(value) == 3 for value in set(card_values)) and len(set(card_values)) == 2)
+        four_of_a_kind = any(
+            card_values.count(value) == 4 for value in set(card_values)
+        )
+        full_house = (
+            any(card_values.count(value) == 3 for value in set(card_values))
+            and len(set(card_values)) == 2
+        )
         flush = any(suits.count(suit) == 5 for suit in set(suits))
         three_of_a_kind = any(
             card_values.count(value) == 3 for value in set(card_values)
@@ -157,38 +164,42 @@ class Hand:
         # Determinamos la categoría y rango de la mano
         if straight_flush:
             self.cat = self.STRAIGHT_FLUSH
-            self.cat_rank = str(max(card_values))+
-            return 
+            self.cat_rank = str(max(card_values))
+            return self.cat
         elif four_of_a_kind:
             self.cat = self.FOUR_OF_A_KIND
             self.cat_rank = str(max(card_values))
+            return self.cat
         elif full_house:
             three_of_a_kind_value = max(set(card_values), key=card_values.count)
             pair_value = min(set(card_values), key=card_values.count)
             self.cat = self.FULL_HOUSE
             self.cat_rank = (str(three_of_a_kind_value), str(pair_value))
+            return self.cat
         elif flush:
             self.cat = self.FLUSH
             self.cat_rank = str(max(card_values))
+            return self.cat
         elif straight:
             self.cat = self.STRAIGHT
+            return self.cat
         elif three_of_a_kind:
             self.cat = self.THREE_OF_A_KIND
             self.cat_rank = str(max(card_values))
+            return self.cat
         elif two_pairs:
-            pairs_values = [
-                value for value in set(card_values) if card_values.count(value) == 2
-            ]
+            pairs_values = [value for value in set(card_values) if card_values.count(value) == 2]
             self.cat = self.TWO_PAIR
-            self.cat_rank = tuple(
-                str(value) for value in sorted(pairs_values, reverse=True)
-            )
+            self.cat_rank = tuple(str(value) for value in sorted(pairs_values, reverse=True))
+            return self.cat
         elif one_pair:
             self.cat = self.ONE_PAIR
             self.cat_rank = str(max(card_values))
+            return self.cat
         else:
             self.cat = self.HIGH_CARD
             self.cat_rank = str(max(card_values))
+            return self.cat
 
 
 class InvalidCardError(Exception):

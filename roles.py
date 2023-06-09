@@ -17,6 +17,7 @@ class Player:
         for comb in player_hand.make_all_combinations():
             hand_comb = Hand(comb)
             hand_comb.check_hand()
+        return hand_comb.cat
 
 
 class Dealer:
@@ -46,3 +47,17 @@ class Dealer:
 
     def __repr__(self) -> str:
         return f"Board {self.table_cards}"
+    
+    def resolv(self):
+        players_best_hand = []
+        for i in range(len(self.players)):
+            player_hand = self.players[i].find_best_hand()
+            players_best_hand.append(player_hand)
+        if players_best_hand[0] > players_best_hand[1]:
+            return players_best_hand[0]
+        elif players_best_hand[1] > players_best_hand[0]:
+            return players_best_hand[1]
+        else:
+            return None
+
+
