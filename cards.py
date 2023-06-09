@@ -197,6 +197,7 @@ class Hand:
             return self.cat
 
     def higher_card(self, *cards: Card):
+        pass
         
 
             

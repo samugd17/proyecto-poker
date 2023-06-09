@@ -46,7 +46,7 @@ class Dealer:
                 self.players[i].cards = player_cards
 
     def __repr__(self) -> str:
-        return f"Board {self.table_cards}"
+        return f"{self.table_cards}"
     
     def resolv(self):
         players_best_hand = []
