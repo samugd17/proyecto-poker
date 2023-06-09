@@ -11,10 +11,12 @@ class Player:
 
     def __repr__(self) -> str:
         return f"{self.name} {self.cards}"
-    
+
     def find_best_hand(self):
         player_hand = Hand(self.table_cards, self.cards)
-        
+        for comb in player_hand.make_all_combinations():
+            hand_comb = Hand(comb)
+            hand_comb.check_hand()
 
 
 class Dealer:
@@ -28,12 +30,11 @@ class Dealer:
         for _ in range(5):
             new_card = self.cards.get_random_card()
             table_cards.append(new_card)
-        
+
         for i in range(len(self.players)):
             self.players[i].table_cards = table_cards
-        
+
         return table_cards
-    
 
     def give_player_cards(self):
         for i in range(len(self.players)):
