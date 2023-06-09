@@ -34,7 +34,6 @@ class Dealer:
 
         for i in range(len(self.players)):
             self.players[i].table_cards = table_cards
-
         return table_cards
 
     def give_player_cards(self):

@@ -1,27 +1,27 @@
 from __future__ import annotations
 import helpers
 
+CLUBS = "♣"
+DIAMONDS = "◆"
+HEARTS = "❤"
+SPADES = "♠"
+DECK = dict.fromkeys(
+    [CLUBS, DIAMONDS, HEARTS, SPADES],
+    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+)
+INIT_A_VALUE = 1
+HIGHEST_A_VALUE = 14
+MAX_CARDS = 51  # Por índice Python
 
 class Card:
-    CLUBS = "♣"
-    DIAMONDS = "◆"
-    HEARTS = "❤"
-    SPADES = "♠"
-    DECK = dict.fromkeys(
-        [CLUBS, DIAMONDS, HEARTS, SPADES],
-        ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
-    )
-    INIT_A_VALUE = 1
-    HIGHEST_A_VALUE = 14
-    MAX_CARDS = 51  # Por índice Python
 
     def __init__(self, card_value: str):
         self.value = card_value[:-1]
         self.suit = card_value[-1]
 
-        if self.suit not in self.DECK:
+        if self.suit not in DECK:
             raise InvalidCardError(message=f"{repr(self.suit)} is not a supported suit")
-        if self.value not in self.DECK[self.suit]:
+        if self.value not in DECK[self.suit]:
             raise InvalidCardError(
                 message=f"{repr(self.value)} is not a supported value"
             )
@@ -30,9 +30,9 @@ class Card:
     def cmp_value(self) -> int:
         """Devuelve el valor (numérico) de la carta para comparar con otras."""
         if self.value == "A":
-            return self.HIGHEST_A_VALUE
-        return self.DECK[self.suit].index(self.value) + 1
-
+            return HIGHEST_A_VALUE
+        return DECK[self.suit].index(self.value) + 1
+    
     def __lt__(self, other: Card):
         return self.cmp_value < other.cmp_value
 
@@ -58,7 +58,7 @@ class Deck:
 
     def __init__(self):
         self.cards = []
-        for suit, values in Card.DECK.items():
+        for suit, values in DECK.items():
             for value in values:
                 new_card = Card(value + suit)
                 self.cards.append(new_card)
@@ -66,15 +66,15 @@ class Deck:
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
-    def get_random_card(self):
-        random_value = helpers.randint(Card.MAX_CARDS)
-        Card.MAX_CARDS -= 1
-        return self.cards.pop(random_value)
-
     @property
     def view_random_card(self):
-        random_value = helpers.randint(Card.MAX_CARDS)
+        random_value = helpers.randint(MAX_CARDS)
         return self.cards[random_value]
+    
+    def get_random_card(self):
+        random_value = helpers.randint(self.LAST_CARD)
+        self.LAST_CARD -= 1
+        return self.cards.pop(random_value)
 
     def get_top_card(self):
         return self.cards.pop(self.FIRST_CARD)
@@ -199,8 +199,6 @@ class Hand:
     def higher_card(self, *cards: Card):
         pass
         
-
-            
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
