@@ -15,12 +15,11 @@ class Game:
         self.dealer.take_common_cards()
 
     def get_winner(players: list[Player], common_cards: list[Card], private_cards: list[list[Card]]) -> tuple[Player | None, Hand]:
-        return players, common_cards, private_cards
+        pass
 
 
 game = Game()
 game.start_game()
-print(game.players)
 print(game.players[1].table_cards)
 print(game.players[0].cards)
 print(game.players[1].cards)

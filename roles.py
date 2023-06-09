@@ -53,11 +53,9 @@ class Dealer:
         for i in range(len(self.players)):
             player_hand = self.players[i].find_best_hand()
             players_best_hand.append(player_hand)
-        if players_best_hand[0] > players_best_hand[1]:
-            return players_best_hand[0]
-        elif players_best_hand[1] > players_best_hand[0]:
-            return players_best_hand[1]
-        else:
-            return None
+            best_hand = max(players_best_hand)
+        if players_best_hand.count(best_hand) == 1:
+            return best_hand   
+        return None
 
 

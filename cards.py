@@ -51,11 +51,6 @@ class Card:
     def same_suit(self, other: Card):
         return self.suit == other.suit
 
-    def is_consecutive(self, other: Card):
-        if self.cmp_value > other.cmp_value:
-            return self.cmp_value - other.cmp_value == 1
-        return other.cmp_value - self.cmp_value == 1
-
 
 class Deck:
     LAST_CARD = 51
@@ -201,6 +196,10 @@ class Hand:
             self.cat_rank = str(max(card_values))
             return self.cat
 
+    def higher_card(self, *cards: Card):
+        
+
+            
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
