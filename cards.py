@@ -9,8 +9,6 @@ DECK = dict.fromkeys(
     [CLUBS, DIAMONDS, HEARTS, SPADES],
     ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 )
-
-INIT_A_VALUE = 1
 HIGHEST_A_VALUE = 14
 MAX_CARDS = 51  # Por índice Python
 
@@ -49,13 +47,7 @@ class Card:
         return f"{self.value}{self.suit}"
 
     def __eq__(self, other):
-        return self.value == other.value
-
-    def same_value(self, other: Card):
-        return self.value == other.value
-
-    def same_suit(self, other: Card):
-        return self.suit == other.suit
+        return self.cmp_value == other.cmp_value
 
 
 class Deck:
@@ -130,8 +122,8 @@ class Hand:
         return " ".join(str(card) for card in self.hand)
     
     def __gt__(self, other):
-        new_var = self.cat_rank == other.cat_rank and self.cat == other.cat
-        if new_var:
+        same_hand = self.cat_rank == other.cat_rank and self.cat == other.cat
+        if same_hand:
             return [card.value for card in self.hand] > [card.value for card in other.hand]
         if self.cat > other.cat: 
             return True
@@ -142,7 +134,6 @@ class Hand:
             return [card.value for card in self.hand] == [card.value for card in other.hand]
         return False
 
-        
 
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):

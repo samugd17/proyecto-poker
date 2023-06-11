@@ -1,7 +1,6 @@
 from __future__ import annotations
 import helpers
-from cards import Deck, Card, Hand
-
+from cards import Deck, Hand
 
 class Player:
     def __init__(self, name: str):
@@ -10,7 +9,7 @@ class Player:
         self.common_cards: list = []
 
     def __repr__(self) -> str:
-        return f"{self.name} {self.private_cards}"
+        return f"{self.private_cards}"
     
     @property
     def show_game_cards(self) -> list:
@@ -22,7 +21,7 @@ class Player:
     def check_possible_hands(self):
         cards= []
         for combination in self.make_all_combinations():
-            sorted(combination, key=lambda card: card.value)
+            sorted(combination)
             for card in combination:
                 cards.append(card)
         card_combinations = [cards[i:i+5] for i in range(0, len(cards), 5)]
@@ -70,10 +69,10 @@ class Player:
         return best_hand
     
     def get_cat_rank(self) -> str | tuple[str]:
-        hand, hand_cat = self.find_best_hand()
-        pairs_values = list(set(card.str_value for card in hand if hand.count(card) == 2))
-        three_of_a_kind_value = list(set(card.str_value for card in hand if hand.count(card) == 3))
-        four_of_a_kind_value = list(set(card.str_value for card in hand if hand.count(card) == 4))
+        hand_cards, hand_cat = self.find_best_hand()
+        pairs_values = list(set(card.str_value for card in hand_cards if hand_cards.count(card) == 2))
+        three_of_a_kind_value = list(set(card.str_value for card in hand_cards if hand_cards.count(card) == 3))
+        four_of_a_kind_value = list(set(card.str_value for card in hand_cards if hand_cards.count(card) == 4))
         
         if hand_cat == Hand.FOUR_OF_A_KIND:
             return four_of_a_kind_value[0]
@@ -86,11 +85,16 @@ class Player:
             return tuple(formatted_pairs_values)
         elif hand_cat == Hand.ONE_PAIR:
             return pairs_values[0]
-        high_card = (max(card for card in hand))
+        high_card = (max(card for card in hand_cards))
         return high_card.str_value
 
-
-
+    def build_hand(self) -> Hand:
+        cards, cat = self.find_best_hand()
+        new_hand = Hand(cards)
+        new_hand.cat = cat
+        new_hand.cat_rank = self.get_cat_rank()
+        return new_hand
+    
 class Dealer:
     def __init__(self, players: list[Player]):
         self.players = players
@@ -117,6 +121,3 @@ class Dealer:
 
     def __repr__(self) -> str:
         return f"{self.table_cards}"
-    
-
-
