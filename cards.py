@@ -49,7 +49,7 @@ class Card:
         return f"{self.value}{self.suit}"
 
     def __eq__(self, other):
-        return self.suit == other.suit and self.value == other.value
+        return self.value == other.value
 
     def same_value(self, other: Card):
         return self.value == other.value

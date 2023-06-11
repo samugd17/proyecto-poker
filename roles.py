@@ -51,8 +51,6 @@ class Player:
             elif four_of_a_kind:
                 actual_hand = [combination, Hand.FOUR_OF_A_KIND]
             elif full_house:
-                three_of_a_kind_value = max(set(card_values), key=card_values.count)
-                # pair_value = min(set(card_values), key=card_values.count)
                 actual_hand = [combination, Hand.FULL_HOUSE]
             elif flush:
                 actual_hand = [combination, Hand.FLUSH]
@@ -61,8 +59,6 @@ class Player:
             elif three_of_a_kind:
                 actual_hand = [combination, Hand.THREE_OF_A_KIND]
             elif two_pairs:
-                # pairs_values = [value for value in set(card_values) if card_values.count(value) == 2]
-                # self.cat_rank = tuple(str(value) for value in sorted(pairs_values, reverse=True))
                 actual_hand = [combination, Hand.TWO_PAIR]
             elif one_pair:
                 actual_hand = [combination, Hand.ONE_PAIR]
@@ -75,12 +71,21 @@ class Player:
     
     def get_cat_rank(self) -> str | tuple[str]:
         hand, hand_cat = self.find_best_hand()
-        print(hand, hand_cat)
-        if hand_cat == Hand.FULL_HOUSE:
-            return ""
+        pairs_values = list(set(card.str_value for card in hand if hand.count(card) == 2))
+        three_of_a_kind_value = list(set(card.str_value for card in hand if hand.count(card) == 3))
+        four_of_a_kind_value = list(set(card.str_value for card in hand if hand.count(card) == 4))
+        
+        if hand_cat == Hand.FOUR_OF_A_KIND:
+            return four_of_a_kind_value[0]
+        elif hand_cat == Hand.FULL_HOUSE:
+            return tuple(three_of_a_kind_value + pairs_values)
+        elif hand_cat == Hand.THREE_OF_A_KIND:
+            return three_of_a_kind_value[0]
         elif hand_cat == Hand.TWO_PAIR:
-            pairs_values = [card for card in hand if hand.count(card) == 2]
-            print(pairs_values)
+            formatted_pairs_values = sorted(pairs_values, reverse=True)
+            return tuple(formatted_pairs_values)
+        elif hand_cat == Hand.ONE_PAIR:
+            return pairs_values[0]
         high_card = (max(card for card in hand))
         return high_card.str_value
 
