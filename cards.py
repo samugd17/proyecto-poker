@@ -7,14 +7,14 @@ HEARTS = "❤"
 SPADES = "♠"
 DECK = dict.fromkeys(
     [CLUBS, DIAMONDS, HEARTS, SPADES],
-    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 )
+
 INIT_A_VALUE = 1
 HIGHEST_A_VALUE = 14
 MAX_CARDS = 51  # Por índice Python
 
 class Card:
-
     def __init__(self, card_value: str):
         self.value = card_value[:-1]
         self.suit = card_value[-1]
@@ -32,6 +32,12 @@ class Card:
         if self.value == "A":
             return HIGHEST_A_VALUE
         return DECK[self.suit].index(self.value) + 1
+        
+    @property
+    def str_value(self):
+        if self.cmp_value == HIGHEST_A_VALUE:
+            return "A"
+        return DECK[self.suit][self.cmp_value - 1]
     
     def __lt__(self, other: Card):
         return self.cmp_value < other.cmp_value
@@ -106,98 +112,36 @@ class Hand:
     FOUR_OF_A_KIND = 8
     STRAIGHT_FLUSH = 9
 
-    def __init__(self, common_cards: list[Card], player_cards: list[Card] = ()):
-        self.game_cards = common_cards + player_cards
-        self.cat = 0
-        self.cat_rank = None
+    def __init__(self, hand: list[Card]):
+        self.hand = hand
+        self.cat:int = 0
+        self.cat_rank: str | tuple[str]
 
-    def __contains__(self, b):
-        return self in b
+    def __contains__(self, card: Card):
+        return card in self.hand
+    
+    def __getitem__(self, index: int) -> Card:
+        return self.hand[index]
+    
+    def __len__(self) -> int:
+        return len(self.hand)
+    
+    def __repr__(self) -> str:
+        return " ".join(str(card) for card in self.hand)
+    
+    def __gt__(self, other):
+        new_var = self.cat_rank == other.cat_rank and self.cat == other.cat
+        if new_var:
+            return [card.value for card in self.hand] > [card.value for card in other.hand]
+        if self.cat > other.cat: 
+            return True
+        return self.cat == other.cat and self.cat_rank > other.cat_rank
 
-    def make_all_combinations(self):
-        return list(helpers.combinations(self.game_cards, n=5))
+    def __eq__(self, other):
+        if self.cat_rank == other.cat_rank and self.cat == other.cat:
+            return [card.value for card in self.hand] == [card.value for card in other.hand]
+        return False
 
-    def check_hand(self):
-        suits = [card.suit for card in self.game_cards]
-        card_values = [card.cmp_value for card in self.game_cards]
-        same_suit = len(set(suits)) == 1
-
-        # Establecemos todas las combinaciones posibles
-        straight = sorted(card_values) == list(
-            range(min(card_values), max(card_values) + 1)
-        )
-        straight_flush = same_suit and straight
-        four_of_a_kind = any(
-            card_values.count(value) == 4 for value in set(card_values)
-        )
-        full_house = (
-            any(card_values.count(value) == 3 for value in set(card_values))
-            and len(set(card_values)) == 2
-        )
-        flush = any(suits.count(suit) == 5 for suit in set(suits))
-        three_of_a_kind = any(
-            card_values.count(value) == 3 for value in set(card_values)
-        )
-        two_pairs = len(set(card_values)) == 3 and any(
-            card_values.count(value) == 2 for value in set(card_values)
-        )
-        one_pair = len(set(card_values)) == 4
-        high_card = max(card_values)
-
-        self.possible_categories = [
-            straight,
-            straight_flush,
-            four_of_a_kind,
-            full_house,
-            flush,
-            three_of_a_kind,
-            two_pairs,
-            one_pair,
-            high_card,
-        ]
-
-        # Determinamos la categoría y rango de la mano
-        if straight_flush:
-            self.cat = self.STRAIGHT_FLUSH
-            self.cat_rank = str(max(card_values))
-            return self.cat
-        elif four_of_a_kind:
-            self.cat = self.FOUR_OF_A_KIND
-            self.cat_rank = str(max(card_values))
-            return self.cat
-        elif full_house:
-            three_of_a_kind_value = max(set(card_values), key=card_values.count)
-            pair_value = min(set(card_values), key=card_values.count)
-            self.cat = self.FULL_HOUSE
-            self.cat_rank = (str(three_of_a_kind_value), str(pair_value))
-            return self.cat
-        elif flush:
-            self.cat = self.FLUSH
-            self.cat_rank = str(max(card_values))
-            return self.cat
-        elif straight:
-            self.cat = self.STRAIGHT
-            return self.cat
-        elif three_of_a_kind:
-            self.cat = self.THREE_OF_A_KIND
-            self.cat_rank = str(max(card_values))
-            return self.cat
-        elif two_pairs:
-            pairs_values = [value for value in set(card_values) if card_values.count(value) == 2]
-            self.cat = self.TWO_PAIR
-            self.cat_rank = tuple(str(value) for value in sorted(pairs_values, reverse=True))
-            return self.cat
-        elif one_pair:
-            self.cat = self.ONE_PAIR
-            self.cat_rank = str(max(card_values))
-            return self.cat
-        else:
-            self.cat = self.HIGH_CARD
-            self.cat_rank = str(max(card_values))
-            return self.cat
-
-    def higher_card(self, *cards: Card):
-        pass
         
 
 class InvalidCardError(Exception):
@@ -213,7 +157,7 @@ class InvalidCardError(Exception):
 # card1 = Card("Q♣")
 # card2 = Card("A♣")
 # card3 = Card("10♣")
-# print(card1)
+# print(card1.cat_rank)
 # deck1 = Deck()
 # print(deck1.cards)
 # print(deck1.get_random_card())

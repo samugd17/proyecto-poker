@@ -20,9 +20,11 @@ class Game:
 
 game = Game()
 game.start_game()
-print(game.players[1].table_cards)
-print(game.players[0].cards)
-print(game.players[1].cards)
+print(game.players[0].common_cards)
+print(game.players[0].private_cards)
+print(game.players[1].private_cards)
 print(game.players[0].find_best_hand())
 print(game.players[1].find_best_hand())
-# print(game.dealer.resolv())
+print(game.players[1].get_cat_rank())
+# [9♠, 8◆, A♠, 7❤, A◆]
+# [K◆, K♠]
