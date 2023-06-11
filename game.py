@@ -25,6 +25,5 @@ print(game.players[0].private_cards)
 print(game.players[1].private_cards)
 print(game.players[0].find_best_hand())
 print(game.players[1].find_best_hand())
+print(game.players[0].get_cat_rank())
 print(game.players[1].get_cat_rank())
-# [9♠, 8◆, A♠, 7❤, A◆]
-# [K◆, K♠]
