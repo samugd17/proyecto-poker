@@ -1,12 +1,11 @@
 from __future__ import annotations
-from roles import Player, Dealer
-from cards import Card, Hand, Deck
+from roles import Player
+from cards import Card, Hand
 
 def get_winner(players: list[Player], common_cards: list[Card], private_cards: list[list[Card]]) -> tuple[Player | None, Hand]:
     for i, player in enumerate(players):
         player.private_cards, player.common_cards = private_cards[i], common_cards
 
-    winners = []
     best_hand = None
     for player in players:
         player_hand = player.build_hand()
