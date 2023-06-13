@@ -10,7 +10,7 @@ class Player:
         self.common_cards: list = []
 
     def __repr__(self) -> str:
-        return f"{self.private_cards}"
+        return f"{self.name} {self.private_cards}"
 
     @property
     def show_game_cards(self) -> list:
@@ -86,9 +86,9 @@ class Player:
 
     def get_cat_rank(self) -> str | tuple[str]:
         hand_cards, hand_cat = self.find_best_hand()
-        pairs_values = list(
-            set(card.str_value for card in hand_cards if hand_cards.count(card) == 2)
-        )
+        pairs_values = sorted(list(
+            set(card.cmp_value for card in hand_cards if hand_cards.count(card) == 2)
+        ),reverse=True)
         three_of_a_kind_value = list(
             set(card.str_value for card in hand_cards if hand_cards.count(card) == 3)
         )
@@ -99,14 +99,14 @@ class Player:
         if hand_cat == Hand.FOUR_OF_A_KIND:
             return four_of_a_kind_value[0]
         if hand_cat == Hand.FULL_HOUSE:
-            return tuple(three_of_a_kind_value + pairs_values)
+            return tuple(three_of_a_kind_value[0] + CARD_VALUES[pairs_values[0]])
         if hand_cat == Hand.THREE_OF_A_KIND:
             return three_of_a_kind_value[0]
         if hand_cat == Hand.TWO_PAIR:
-            formatted_pairs_values = sorted(pairs_values, reverse=True)
+            formatted_pairs_values = [CARD_VALUES[pairs_values[0]], CARD_VALUES[pairs_values[1]]]
             return tuple(formatted_pairs_values)
         if hand_cat == Hand.ONE_PAIR:
-            return pairs_values[0]
+            return CARD_VALUES[pairs_values[0]]
         high_card = max(card for card in hand_cards)
         return high_card.str_value
 
@@ -116,7 +116,6 @@ class Player:
         new_hand.cat = cat
         new_hand.cat_rank = self.get_cat_rank()
         return new_hand
-
 
 class Dealer:
     def __init__(self, players: list[Player]):
