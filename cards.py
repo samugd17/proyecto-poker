@@ -1,61 +1,56 @@
 from __future__ import annotations
-import helpers, cards
+import helpers
 
+CLUBS = "♣"
+DIAMONDS = "◆"
+HEARTS = "❤"
+SPADES = "♠"
+DECK = dict.fromkeys(
+    [CLUBS, DIAMONDS, HEARTS, SPADES],
+    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+)
+CARD_VALUES = {2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K",14:"A"}
+
+HIGHEST_A_VALUE = 14
+MAX_CARDS = 51  # Por índice Python
 
 class Card:
-    CLUBS = "♣"
-    DIAMONDS = "◆"
-    HEARTS = "❤"
-    SPADES = "♠"
-    # GLYPHS = {
-    #     CLUBS: "🃑🃒🃓🃔🃕🃖🃗🃘🃙🃚🃛🃝🃞",
-    #     DIAMONDS: "🃁🃂🃃🃄🃅🃆🃇🃈🃉🃊🃋🃍🃎",
-    #     HEARTS: "🂱🂲🂳🂴🂵🂶🂷🂸🂹🂺🂻🂽🂾",
-    #     SPADES: "🂡🂢🂣🂤🂥🂦🂧🂨🂩🂪🂫🂭🂮",
-    # }
-    A_VALUE = 1
-    K_VALUE = 13
-    MAX_CARDS = 51 #Por índice Python
+    def __init__(self, card_value: str):
+        self.value = card_value[:-1]
+        self.suit = card_value[-1]
 
-    def __init__(self, value: int, suit: str):
-        if suit not in self.GLYPHS:
-            raise InvalidCardError(message=f"{repr(suit)} is not a supported suit")
-        if not 1 <= value <= 13:
-            raise InvalidCardError(message=f"{repr(value)} is not a supported value")
-        self.suit = suit
-        self.value = value
+        if self.suit not in DECK:
+            raise InvalidCardError(message=f"{repr(self.suit)} is not a supported suit")
+        if self.value not in DECK[self.suit]:
+            raise InvalidCardError(
+                message=f"{repr(self.value)} is not a supported value"
+            )
 
     @property
     def cmp_value(self) -> int:
-        """Devuelve el valor (numérico) de la carta para comparar con otras.
-        Tener en cuenta el AS."""
-        if self.value == Card.A_VALUE:
-            self.value = 14
-        return self.value
-
-    def __lt__(self, other: Card):
-        return self.cmp_value < other.value
+        """Devuelve el valor (numérico) de la carta para comparar con otras."""
+        if self.value == "A":
+            return HIGHEST_A_VALUE
+        return DECK[self.suit].index(self.value) + 1
+        
+    @property
+    def str_value(self):
+        if self.cmp_value == HIGHEST_A_VALUE:
+            return "A"
+        return DECK[self.suit][self.cmp_value - 1]
     
+    def __lt__(self, other: Card):
+        return self.cmp_value < other.cmp_value
+
     def __gt__(self, other: Card):
-        return self.cmp_value > other.value
+        return self.cmp_value > other.cmp_value
 
     def __repr__(self):
-        """Devuelve el glifo de la carta"""
-        return f'{self.GLYPHS[self.suit][self.value - 1]} '
-    
+        return f"{self.value}{self.suit}"
+
     def __eq__(self, other):
-        return self.suit == other.suit and self.cmp_value == other.value
-    
-    def same_value(self, other: Card):
-        return self.cmp_value == other.value
-    
-    def same_suit(self, other: Card):
-        return self.suit == other.suit
-    
-    def is_consecutive(self, other: Card):
-        if self.cmp_value > other.value:
-            return self.cmp_value - other.value == 1
-        return other.value - self.cmp_value == 1
+        return self.cmp_value == other.cmp_value
+
 
 class Deck:
     LAST_CARD = 51
@@ -63,54 +58,85 @@ class Deck:
 
     def __init__(self):
         self.cards = []
-        for suit, values in Card.GLYPHS.items():
+        for suit, values in DECK.items():
             for value in values:
-                int_value = values.index(value) + 1
-                new_card = Card(int_value, suit)
+                new_card = Card(value + suit)
                 self.cards.append(new_card)
-                
+
     def __getitem__(self, index: int) -> str:
         return self.cards[index]
 
-    def get_random_card(self): 
-        random_value = helpers.randint(1, Card.MAX_CARDS)
-        Card.MAX_CARDS -= 1
-        return self.cards.pop(random_value)
-    
     @property
     def view_random_card(self):
-        random_value = helpers.randint(Card.A_VALUE, Card.MAX_CARDS)
+        random_value = helpers.randint(MAX_CARDS)
         return self.cards[random_value]
     
+    def get_random_card(self):
+        random_value = helpers.randint(self.LAST_CARD)
+        self.LAST_CARD -= 1
+        return self.cards.pop(random_value)
+
     def get_top_card(self):
         return self.cards.pop(self.FIRST_CARD)
 
     def get_bottom_card(self):
         return self.cards.pop(self.LAST_CARD)
-    
+
     @property
     def view_top_card(self):
         return self.cards[self.FIRST_CARD]
-    
+
     @property
     def view_bottom_card(self):
         return self.cards[self.LAST_CARD]
-    
+
     def shuffle(self):
         helpers.shuffle(self.cards)
-        return self.cards 
+        return self.cards
+
 
 class Hand:
-    def __init__(self, common_cards: str, player_cards: str):
-        self.cards_in_game = list(common_cards) + list(player_cards)
-        
-    def __contains__(self, card):
-        pass
+    HIGH_CARD = 1
+    ONE_PAIR = 2
+    TWO_PAIR = 3
+    THREE_OF_A_KIND = 4
+    STRAIGHT = 5
+    FLUSH = 6
+    FULL_HOUSE = 7
+    FOUR_OF_A_KIND = 8
+    STRAIGHT_FLUSH = 9
 
-    def choose_best_combination(self):
-        return list(helpers.combinations(self.cards_in_game, n=5))
-        
+    def __init__(self, hand: list[Card]):
+        self.hand = hand
+        self.cat:int = 0
+        self.cat_rank: str | tuple[str]
+
+    def __contains__(self, card: Card):
+        return card in self.hand
     
+    def __getitem__(self, index: int) -> Card:
+        return self.hand[index]
+    
+    def __len__(self) -> int:
+        return len(self.hand)
+    
+    def __repr__(self) -> str:
+        return " ".join(str(card) for card in self.hand)
+    
+    def __gt__(self, other):
+        same_hand = self.cat_rank == other.cat_rank and self.cat == other.cat
+        if same_hand:
+            return [card.value for card in self.hand] > [card.value for card in other.hand]
+        if self.cat > other.cat: 
+            return True
+        return self.cat == other.cat and self.cat_rank > other.cat_rank
+
+    def __eq__(self, other):
+        if self.cat_rank == other.cat_rank and self.cat == other.cat:
+            return [card.value for card in self.hand] == [card.value for card in other.hand]
+        return False
+
+
 class InvalidCardError(Exception):
     def __init__(self, *, message: str = ""):
         default_message = "🃏 Invalid card"
@@ -121,11 +147,11 @@ class InvalidCardError(Exception):
         super().__init__(self.message)
 
 
-# card = Card(1,Card.HEARTS)
-# print(card)
+# card1 = Card("Q♣")
+# card2 = Card("A♣")
+# card3 = Card("10♣")
+# print(card1.cat_rank)
 # deck1 = Deck()
 # print(deck1.cards)
 # print(deck1.get_random_card())
 # print(deck1.shuffle())
-
-
