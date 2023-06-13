@@ -19,14 +19,6 @@ class Player:
     def make_all_combinations(self) -> list:
         return list(helpers.combinations(self.show_game_cards, n=5))
 
-    # def check_possible_hands(self):
-    #     cards = []
-    #     for combination in self.make_all_combinations():
-    #         for card in combination:
-    #             cards.append(card)
-    #     card_combinations = [cards[i : i + 5] for i in range(0, len(cards), 5)]
-    #     return card_combinations
-
     def find_best_hand(self):
         best_hand = [None, 0]
         for combination in self.make_all_combinations():
