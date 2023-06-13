@@ -36,10 +36,15 @@ players = [Player('Player 1'), Player('Player 2')]
 # private_cards = [[Card('4♣'), Card('2❤')], [Card('9♠'), Card('2◆')]]
 # common_cards = [Card('A◆'), Card('Q♠'), Card('Q◆'), Card('10◆'), Card('4◆')]
 # private_cards = [[Card('Q❤'), Card('4♣')], [Card('6◆'), Card('2◆')]]
-common_cards = [Card('Q♣'), Card('Q♠'), Card('9♣'), Card('7♠'), Card('5♠')]
-private_cards = [[Card('A♠'), Card('3◆')], [Card('J♣'), Card('2♠')]]
-print(get_winner(players, common_cards, private_cards))
-print(players[0].private_cards)
-print(players[1].private_cards)
-print(players[0].find_best_hand())
-print(players[1].find_best_hand())
+# common_cards = [Card('10❤'), Card('10◆'), Card('8❤'), Card('4♠'), Card('4❤')]
+# private_cards = [[Card('A◆'), Card('4◆')], [Card('5♠'), Card('2♠')]]
+# common_cards = [Card('A♣'), Card('Q♣'), Card('9♠'), Card('5♠'), Card('4♠')]
+# private_cards = [[Card('A❤'), Card('7◆')], [Card('Q❤'), Card('7❤')]]
+# print(get_winner(players, common_cards, private_cards))
+# print(players[0].private_cards)
+# print(players[1].private_cards)
+# print(players[0].find_best_hand())
+# print(players[1].find_best_hand())
+hand1 = Hand([Card('A♣'), Card('Q♣'), Card('9♠'), Card('7◆'), Card('A❤')])
+hand2 = Hand([Card('A♣'), Card('Q♣'), Card('9♠'), Card('7♠'), Card('Q♠')])
+print(hand1>hand2)

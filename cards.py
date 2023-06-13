@@ -109,7 +109,7 @@ class Hand:
     def __init__(self, hand: list[Card]):
         self.hand = hand
         self.cat:int = 0
-        self.cat_rank: str | tuple[str]
+        self.cat_rank:str | tuple[str] = None
 
     def __contains__(self, card: Card):
         return card in self.hand
@@ -126,14 +126,14 @@ class Hand:
     def __gt__(self, other):
         same_hand = self.cat_rank == other.cat_rank and self.cat == other.cat
         if same_hand:
-            return [card.value for card in self.hand] > [card.value for card in other.hand]
+            return sum([card.cmp_value for card in self.hand]) > sum([card.cmp_value for card in other.hand])
         if self.cat > other.cat: 
             return True
         return self.cat == other.cat and self.cat_rank > other.cat_rank
 
     def __eq__(self, other):
         if self.cat_rank == other.cat_rank and self.cat == other.cat:
-            return [card.value for card in self.hand] == [card.value for card in other.hand]
+            return sum([card.cmp_value for card in self.hand]) == sum([card.cmp_value for card in other.hand])
         return False
 
 

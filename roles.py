@@ -19,17 +19,17 @@ class Player:
     def make_all_combinations(self) -> list:
         return list(helpers.combinations(self.show_game_cards, n=5))
 
-    def check_possible_hands(self):
-        cards = []
-        for combination in self.make_all_combinations():
-            for card in combination:
-                cards.append(card)
-        card_combinations = [cards[i : i + 5] for i in range(0, len(cards), 5)]
-        return card_combinations
+    # def check_possible_hands(self):
+    #     cards = []
+    #     for combination in self.make_all_combinations():
+    #         for card in combination:
+    #             cards.append(card)
+    #     card_combinations = [cards[i : i + 5] for i in range(0, len(cards), 5)]
+    #     return card_combinations
 
     def find_best_hand(self):
         best_hand = [None, 0]
-        for combination in self.check_possible_hands():
+        for combination in self.make_all_combinations():
             suits = [card.suit for card in combination]
             card_values = [card.cmp_value for card in combination]
             same_suit = len(set(suits)) == 1
@@ -99,16 +99,16 @@ class Player:
         if hand_cat == Hand.FOUR_OF_A_KIND:
             return four_of_a_kind_value[0]
         if hand_cat == Hand.FULL_HOUSE:
-            return tuple(three_of_a_kind_value[0] + CARD_VALUES[pairs_values[0]])
+            return (three_of_a_kind_value[0], CARD_VALUES[pairs_values[0]])
         if hand_cat == Hand.THREE_OF_A_KIND:
             return three_of_a_kind_value[0]
         if hand_cat == Hand.TWO_PAIR:
-            formatted_pairs_values = [CARD_VALUES[pairs_values[0]], CARD_VALUES[pairs_values[1]]]
-            return tuple(formatted_pairs_values)
+            formatted_pairs_values = (CARD_VALUES[pairs_values[0]], CARD_VALUES[pairs_values[1]])
+            return formatted_pairs_values
         if hand_cat == Hand.ONE_PAIR:
             return CARD_VALUES[pairs_values[0]]
-        high_card = max(card for card in hand_cards)
-        return high_card.str_value
+        high_card = max(card.cmp_value for card in hand_cards)
+        return CARD_VALUES[high_card]
 
     def build_hand(self) -> Hand:
         cards, cat = self.find_best_hand()
