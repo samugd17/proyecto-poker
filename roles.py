@@ -78,9 +78,9 @@ class Player:
             if actual_hand[1] > best_hand[1]:
                 best_hand = actual_hand
             elif actual_hand[1] == best_hand[1]:
-                n1 = sum(i.cmp_value for i in actual_hand[0])
-                n2 = sum(i.cmp_value for i in best_hand[0])
-                if n1 > n2:
+                comb1 = sum(card.cmp_value for card in actual_hand[0])
+                comb2 = sum(card.cmp_value for card in best_hand[0])
+                if comb1 > comb2:
                     best_hand = actual_hand
         return best_hand
 
