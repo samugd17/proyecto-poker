@@ -1,6 +1,6 @@
 from __future__ import annotations
 import helpers
-from cards import Deck, Hand
+from cards import Deck, Hand, CARD_VALUES
 
 
 class Player:
