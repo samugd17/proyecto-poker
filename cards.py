@@ -7,12 +7,28 @@ HEARTS = "❤"
 SPADES = "♠"
 DECK = dict.fromkeys(
     [CLUBS, DIAMONDS, HEARTS, SPADES],
-    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+    ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
 )
-CARD_VALUES = {2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K",14:"A"}
+
+CARD_VALUES = {
+    2: "2",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
+    10: "10",
+    11: "J",
+    12: "Q",
+    13: "K",
+    14: "A",
+}
 
 HIGHEST_A_VALUE = 14
 MAX_CARDS = 51  # Por índice Python
+
 
 class Card:
     def __init__(self, card_value: str):
@@ -32,13 +48,7 @@ class Card:
         if self.value == "A":
             return HIGHEST_A_VALUE
         return DECK[self.suit].index(self.value) + 1
-        
-    @property
-    def str_value(self):
-        if self.cmp_value == HIGHEST_A_VALUE:
-            return "A"
-        return DECK[self.suit][self.cmp_value - 1]
-    
+
     def __lt__(self, other: Card):
         return self.cmp_value < other.cmp_value
 
@@ -70,7 +80,7 @@ class Deck:
     def view_random_card(self):
         random_value = helpers.randint(MAX_CARDS)
         return self.cards[random_value]
-    
+
     def get_random_card(self):
         random_value = helpers.randint(self.LAST_CARD)
         self.LAST_CARD -= 1
@@ -108,32 +118,36 @@ class Hand:
 
     def __init__(self, hand: list[Card]):
         self.hand = hand
-        self.cat:int = 0
-        self.cat_rank:str | tuple[str] = None
+        self.cat: int = 0
+        self.cat_rank: str | tuple[str] = None
 
     def __contains__(self, card: Card):
         return card in self.hand
-    
+
     def __getitem__(self, index: int) -> Card:
         return self.hand[index]
-    
+
     def __len__(self) -> int:
         return len(self.hand)
-    
+
     def __repr__(self) -> str:
         return " ".join(str(card) for card in self.hand)
-    
+
     def __gt__(self, other):
         same_hand = self.cat_rank == other.cat_rank and self.cat == other.cat
         if same_hand:
-            return sum([card.cmp_value for card in self.hand]) > sum([card.cmp_value for card in other.hand])
-        if self.cat > other.cat: 
+            return sum([card.cmp_value for card in self.hand]) > sum(
+                [card.cmp_value for card in other.hand]
+            )
+        if self.cat > other.cat:
             return True
         return self.cat == other.cat and self.cat_rank > other.cat_rank
 
     def __eq__(self, other):
         if self.cat_rank == other.cat_rank and self.cat == other.cat:
-            return sum([card.cmp_value for card in self.hand]) == sum([card.cmp_value for card in other.hand])
+            return sum([card.cmp_value for card in self.hand]) == sum(
+                [card.cmp_value for card in other.hand]
+            )
         return False
 
 
@@ -145,13 +159,3 @@ class InvalidCardError(Exception):
         else:
             self.message = f"{default_message}: {message}"
         super().__init__(self.message)
-
-
-# card1 = Card("Q♣")
-# card2 = Card("A♣")
-# card3 = Card("10♣")
-# print(card1.cat_rank)
-# deck1 = Deck()
-# print(deck1.cards)
-# print(deck1.get_random_card())
-# print(deck1.shuffle())

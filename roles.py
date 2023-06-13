@@ -82,10 +82,10 @@ class Player:
             set(card.cmp_value for card in hand_cards if hand_cards.count(card) == 2)
         ),reverse=True)
         three_of_a_kind_value = list(
-            set(card.str_value for card in hand_cards if hand_cards.count(card) == 3)
+            set(CARD_VALUES[card.cmp_value] for card in hand_cards if hand_cards.count(card) == 3)
         )
         four_of_a_kind_value = list(
-            set(card.str_value for card in hand_cards if hand_cards.count(card) == 4)
+            set(CARD_VALUES[card.cmp_value] for card in hand_cards if hand_cards.count(card) == 4)
         )
 
         if hand_cat == Hand.FOUR_OF_A_KIND:
